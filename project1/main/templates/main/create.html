@@ -1,0 +1,31 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block content %}
+<div style=" width: 30%; margin-left: 33%; padding-top: 180px;">
+    <form action="Create" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+ 
+        <input type="text" id="Name" name="name" class="form-control form-control-lg" required/>
+        <label class="form-label" for="Name" style="font-weight: bold; ">Name</label>
+
+        <input type="text" id="Genre" name="genre" class="form-control form-control-lg" required/>
+        <label class="form-label" for="Genre" style="font-weight: bold; ">Genre</label>
+
+        <input type="text" id="Author" name="author" class="form-control form-control-lg" required/>
+        <label class="form-label" for="Author" style="font-weight: bold; ">Author</label>
+
+        <div class="form-outline datepicker w-100">
+            {{ form.as_p }}
+        </div>
+        <label class="form-label" style="font-weight: bold; ">Avatar</label>
+
+        <div class="form-outline" style="margin-top: 10px;">
+            <textarea name="about" style="width: 100%;"></textarea>
+            <label class="form-label" for="about" style="font-weight: bold; ">About</label>
+        </div>
+
+        <button class="btn btn-outline-success" type="submit" >Post</button>
+    </form>
+</div>
+{% endblock %}

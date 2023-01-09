@@ -1,0 +1,58 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block category %}
+<div style="display: inline-flex; flex-wrap: wrap; margin-left: 30px; margin-top: 80px; padding: 10px;">
+    <h1 style="font-weight: bold; color: rgb(0, 0, 0);">{{book.name}}</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div style="display: block; width: 40%; margin-top: 30px; margin-left: 80px; padding: 10px;">
+    <div class="form-outline">
+        <img src="{{ book.img }}" width="430" height="600" style="margin-left: 40px;">
+     </div>
+
+    <h1 style="font-weight: bold; margin-top: 10px;">Жанр: {{book.genre}}</h1>
+    <h1 style="font-weight: bold; margin-top: 10px;">Автор: {{book.author}}</h1>
+
+    <h1>{{ book.about }}</h1>
+    <hr>
+
+    <div style="display: inline-flex;">
+        {% if book.raiting %}
+        <h1 style=" font-weight: bold; color: rgb(193, 207, 113);">Средняя оценка: </h1>
+        {% if book.raiting >= 0 and book.raiting <= 3 %}
+            <h1 style=" font-weight: bold; margin-left: 10px; color: rgb(158, 91, 91);">{{book.raiting}}</h1>
+        {% elif book.raiting >= 4 and book.raiting <= 8 %}
+            <h1 style=" font-weight: bold; margin-left: 10px; color: rgb(214, 208, 117);">{{book.raiting}}</h1>
+        {% else %}
+            <h1 style=" font-weight: bold; margin-left: 10px; color: rgb(171, 226, 119);">{{book.raiting}}</h1>
+        {% endif %}
+        <h1 style=" font-weight: bold; margin-left: 10px; color: rgb(171, 226, 119);">/10</h1>
+        {% endif %}
+    </div> 
+
+    <h1 style="font-weight: bold; margin-left: 30px; margin-top: 10px; color: #5557d8;">Comments: </h1>
+        <div style="margin-left: 100px; padding-top: 25px; padding-bottom: 15px; display: flexbox; flex-wrap: wrap;">
+            {% for coment in book.comments %}
+            <h2 style="color: rgb(72, 188, 218);"><img src= {{ coment.user.img }} width="50" height="50" style="border-radius: 50%; "> {{coment.user.login}} {{coment.raiting}}/10 </h2>
+            <p style="margin-left: 40px; width: 80%; color: aquamarine; border: 1px solid black;"> {{coment.comment}} </p>
+            {% endfor %}
+        </div>
+
+        {% if not haveUserComment and user != None %}
+        <h2 style="color: #D2D3FA;"> Your comment: </h2>
+        <form action="Comment" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="name" value="{{book.name}}">
+            <div><input type="number" max="10" min="1" placeholder="Raiting" name="raiting"></div>
+            <div><textarea name="comment" placeholder="Input your comment here" style="width: 550px;" rows="4"></textarea></div>
+            <button class="btn btn-outline-success" type="submit" style="background-color: green; color: white;">Comment</button>
+        </form>
+        {% endif %}
+</div>
+
+
+{% endblock %}

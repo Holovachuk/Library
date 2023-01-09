@@ -1,0 +1,80 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотека</title>
+    <link rel="shortcut icon" href="https://img.icons8.com/emoji/48/null/books-emoji.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="{% static 'main/css/Create.css' %}" >
+  <link rel="stylesheet" href="{% static 'main/css/Own.css' %}" >
+  <link rel="stylesheet" href="{% static 'main/css/DropdownMenu.css' %}">
+
+  <script src="{% static 'main/JS/dropdown.js' %}"></script> 
+
+</head>
+
+<body style="background: linear-gradient(to right, rgb(55, 59, 70), rgb(85, 68, 100)) ">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="width: 100%; position: fixed; z-index: 1; ">
+  <div class="container-fluid">
+    <form action="/">
+      {% csrf_token %}
+      <button class="navbar-brand" style="background: transparent; outline: none; border: 0;"><img src="https://img.icons8.com/emoji/48/null/books-emoji.png" width="60" height="60"></button>
+    </form>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+        </li>
+      </ul>
+
+      <form class="d-flex" action="Search" method="post" style="margin-right: 25px; margin-left: 65%;">
+        {% csrf_token %}
+        <div class="input-group" style="margin-left: 10px; display: inline-flex;">
+          <div class="form-outline">
+            <input type="search" id="form1" name="Search" placeholder="Search" class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <img src="https://img.icons8.com/emoji/48/null/magnifying-glass-tilted-left-emoji.png" height="20px" width="30px"/>
+          </button>
+        </div>
+      </form>
+
+      {%if not isLogin%}
+      <form class="d-flex" action="login" method="get" style="margin-right: 10px;">
+        <button class="btn btn-outline-success" type="submit" style="background: transparent; outline: none; border: 0;"><img src="https://img.icons8.com/cute-clipart/64/null/enter-2.png" height="60px" width="60px"/></button>
+      </form>
+      <form class="d-flex" action="reg">
+        <button class="btn btn-outline-success" type="submit" style="background-color: black; color: white; border: none">Sing Up</button>
+      </form>
+      {% else %}
+      <img src="{{ user.img }}"  width="40" height="30" style="border-radius: 50%; margin-right: 10px;">
+      <form class="d-flex" action="Exit">
+        <button class="btn btn-outline-success" type="submit" style="border: none"><img src="https://img.icons8.com/fluency/48/null/emergency-exit.png"/></button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<div>
+    {% block category %}
+    {% endblock %}
+  </div>
+
+
+    {% block content %}
+    {% endblock %}
+
+
+</body>
+</html>

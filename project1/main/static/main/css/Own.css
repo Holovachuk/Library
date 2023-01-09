@@ -1,0 +1,21 @@
+.Own{
+    margin-left: 10px;
+    margin-top: 10px;
+
+    border: 2px solid black;
+    border-radius: 10%;
+}
+
+.Own:hover{
+    animation: anim 2s linear 0s 1 normal forwards;
+}
+
+@keyframes anim{
+    1%{
+        border: 2px solid rgba(233, 33, 100, 0.582);
+    }
+
+    100%{
+        transform: scale(1.05);
+    }
+}

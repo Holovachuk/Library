@@ -1,0 +1,40 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block content %}
+<div style="display: block; width: 30%; margin-left: 30%; padding-top: 160px;">
+    <form action="Change" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="hidden" name="oldName" value="{{ book.name }}">
+
+        <div class="form-outline">
+            <input type="text" id="Name" name="name" value="{{ book.name }}" class="form-control form-control-lg" required/>
+            <label class="form-label" for="Name" style="font-weight: bold; ">Name</label>
+        </div>
+
+        <div class="form-outline">
+            <input type="text" id="genre" name="genre" value="{{ book.genre }}" class="form-control form-control-lg" required/>
+            <label class="form-label" for="genre" style="font-weight: bold; ">genre</label>
+        </div>
+
+        <div class="form-outline">
+            <input type="text" id="author" name="author" value="{{ book.author }}" class="form-control form-control-lg" required/>
+            <label class="form-label" for="author" style="font-weight: bold; ">Autor</label>
+        </div>
+
+        <div class="form-outline">
+            <img src="{{ book.img }}" width="430" height="450">
+            <input type="text" id="avatar" name="img" value="{{ book.img }}" class="form-control form-control-lg" style="margin-top: 30px;"/>
+            <label class="form-label" for="avatar" style="font-weight: bold; ">Avatar</label>
+        </div>
+
+        <div class="form-outline" style="margin-top: 10px;">
+            <textarea name="about" style="width: 100%;">{{book.about}}</textarea>
+            <label class="form-label" for="about" style="font-weight: bold; " >About</label>
+        </div>
+
+        <button class="btn btn-outline-success" type="submit" style="background-color: green; color: white;">Change</button>
+    </form>
+</div>
+{% endblock %}

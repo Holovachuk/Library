@@ -1,0 +1,86 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block category %}
+<div style="display: inline-flex; flex-wrap: wrap; margin-left: 30px; margin-top: 120px; padding: 10px;">
+    <h1 style="font-weight: bold; color: rgb(0, 0, 0);">{{genre}}</h1>
+    <button style="background: transparent; outline: none; border: 0; margin-left: 10px;" class="FilterButton" onclick="DropdownMenu()"><img src="https://img.icons8.com/color/48/null/filled-filter.png"/></button>
+    <div id="myDropdown" class="dropdown-content" style="margin-top: 50px; margin-left: 80px; border: 2px solid blue; background-color: rgb(120, 106, 155);">
+        {% for g in genres %}
+        <form action="Sort" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="genre" value="{{ g }}">
+
+            {% if g == genre %}
+            <button style="background: green; outline: none; border: 0;">{{ g }}</button>
+            {% else %}
+            <button style=" outline: none; border: 0;">{{ g }}</button>
+            {% endif %}
+        </form>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if isAdmin %}
+<div>
+    <form action="Create" method="get">
+        {% csrf_token %}
+        <button class="Create" style="background: transparent; outline: none; border: 0; z-index: 1;">
+            <img src="https://img.icons8.com/plasticine/100/null/add--v1.png" width="60" height="60"/>
+        </button>
+    </form>
+</div>
+{% endif %}
+
+<div style=" display: inline-flex; flex-wrap: wrap; margin-left: 80px; ">
+
+    {% for book in books %}
+    {% if genre == 'All' or genre == book.genre %}
+    <div style="display: inline-flex; flex-wrap: wrap; margin-left: 20px; margin-top: 30px;">
+        <form action="about" method="get">
+            <input type="hidden" name="name" value="{{book.name}}">
+            <button style="background: transparent; outline: none; border: 0;"><img class="book" src="{{ book.img }}" width="300" height="450"></button>
+        </form>
+        <div style="display: flexbox; flex-wrap: wrap; margin-left: 50px; margin-top: 30px;">
+            <h1 style=" padding: 10px; font-weight: bold; width: 500px;">{{ book.name }}</h1>
+            <h4 style=" margin-left: 10px; margin-top: -20px;">{{ book.genre }}</h4>
+            <h2 style=" padding: 10px; width: 400px; ">{{ book.author }}</h2>
+            <h2 style=" padding: 10px; width: 400px; ">{{ book.about }}</h2>
+            <hr style="height: 10px;">
+            {% if book.raiting %}
+                <h2 style="padding: 10px;">Raiting: {{book.raiting}}</h2>
+            {% else %}
+                <h2 style="padding: 10px;">Не оценено</h2>
+            {% endif %}
+            {% if isAdmin  %}
+            <form action="Remove" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="name"  value="{{ book.name }}">
+                <input type="hidden" name="genre"  value="{{ genre }}">
+
+                <button style="border-radius: 50%; background: transparent; outline: none; border: 0;">
+                    <img src="https://img.icons8.com/color/48/null/delete-forever.png" width="80" height="60" >
+                </button>
+            </form>
+            <form action="Change" method="get" style="margin-top: -55px;">
+                {% csrf_token %}
+                <input type="hidden" name="name"  value="{{ book.name }}">
+
+                <button style="border-radius: 50%; background: transparent; outline: none; border: 0; margin-left: 180px; ">
+                    <img src="https://img.icons8.com/external-others-inmotus-design/67/null/external-Change-virtual-keyboard-others-inmotus-design.png" width="80" height="60" >
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr size="30px">
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}
+
